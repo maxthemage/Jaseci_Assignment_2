@@ -62,11 +62,15 @@ graph main_graph {
                         prompts=["game", "social", "other", "back"]
                     );
 
+        mobile_app -[transition(intent="back")]-> main_root;
+
         info_sys = spawn main_root -[transition(intent="information system")]-> node::state(
                         title="Information System",
                         message="Tell us about the information system you'd like to build",
                         prompts=["back"]
                     );   
+        
+        info_sys -[transition(intent="back")]-> main_root;
 
     }
 
