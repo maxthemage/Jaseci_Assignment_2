@@ -28,7 +28,7 @@ graph main_graph {
                                 prompts=["one-pager", "5-page", "other", "back"]
                             );
 
-        website -[transition(intent="back")]-> main_root;
+        #website -[transition(intent="back")]-> main_root;
         
         one_pager = spawn website <-[transition(intent="one-pager")]-> node::state(
                         title="One Pager",
@@ -36,7 +36,7 @@ graph main_graph {
                         prompts=["back"]
                     );
         
-        one_pager -[transition(intent="back")]-> website;
+        #one_pager -[transition(intent="back")]-> website;
 
         five_pager = spawn website <-[transition(intent="5-page")]-> node::state(
                         title="5 Pager",
@@ -44,7 +44,7 @@ graph main_graph {
                         prompts=["back"]
                     );
 
-        five_pager -[transition(intent="back")]-> website;
+        #five_pager -[transition(intent="back")]-> website;
                 
         other = spawn website <-[transition(intent="other")]-> node::state(
                         title="Other",
@@ -52,7 +52,7 @@ graph main_graph {
                         prompts=["back"]
                     );
         
-        other -[transition(intent="back")]-> website;
+        #other -[transition(intent="back")]-> website;
 
         main_root -[transition(intent="quit")]-> quit_node;
         

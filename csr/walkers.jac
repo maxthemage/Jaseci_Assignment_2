@@ -1,16 +1,24 @@
 
 walker talker {
-    has utterance;
+    has utterance, answers, question;
+    can use.enc_question, use.enc_answer;
 
     state {
         std.out(here.message, here.prompts);
 
-        if(here.title == "quit"): disengage;
+        question = here.message;
+        answers = here.prompts;
+
+        que_enc = use.enc_question(question);
+        ans_enc = use.enc_answer(answers);
+
+        if(here.title == "Quit"): disengage;
         utterance = std.input("> ");
-        #take  <-[transition(intent == utterance)]- node::state else {
+        if utterance == "back": take <-- node::state;
+        #take node::state <-[transition(intent == utterance)]- else {
         #    take here;
         #}
-        take -[transition(intent == utterance)]-> node::state else {
+        take <-[transition(intent == utterance)]-> node::state else {
             take here;
         }
 
