@@ -64,6 +64,30 @@ graph main_graph {
 
         mobile_app -[transition(intent="back")]-> main_root;
 
+        game = spawn mobile_app -[transition(intent="game")]-> node::state(
+                        title="Game",
+                        message="Tell us about the game you would like to build",
+                        prompts=["back"]
+                    );
+        
+        game -[transition(intent="back")]-> mobile_app;
+
+        social = spawn mobile_app -[transition(intent="social")]-> node::state(
+                        title="Social",
+                        message="Tell us about the social media app you would like to build",
+                        prompts=["back"]
+                    );
+
+        social -[transition(intent="back")]-> mobile_app;
+
+        other_mobile_app = spawn mobile_app -[transition(intent="other")]-> node::state(
+                        title="Other Mobile App",
+                        message="Tell us about the custom app you would like to build",
+                        prompts=["back"]
+                    );
+        
+        other_mobile_app -[transition(intent="back")]-> mobile_app;
+
         info_sys = spawn main_root -[transition(intent="information system")]-> node::state(
                         title="Information System",
                         message="Tell us about the information system you'd like to build",
