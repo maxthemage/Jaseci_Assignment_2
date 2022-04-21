@@ -1,7 +1,7 @@
 
 walker talker {
     has utterance, answers, question, answer;
-    can use.enc_question, use.enc_answer, net.max;
+    can use.enc_question, use.enc_answer;
 
     state {
         std.out(here.message, here.prompts);
@@ -19,7 +19,11 @@ walker talker {
         for i in ans_enc:
             answer_scores.l::append(vector.cosine_sim(que_enc, i));
 
-        take -[transition(intent == )]-> node::state else { #instead of using utterance replace with prompt that has the highest number from the encoder
+        max_score = answer_scores[0];
+        for num in answer_scores:
+            if(num > max_score): max_score = num;
+        index = answer_scores.list::index(max_score);
+        take -[transition(intent == answers[index])]-> node::state else { #instead of using utterance replace with prompt that has the highest number from the encoder
             take here;
         }
 
